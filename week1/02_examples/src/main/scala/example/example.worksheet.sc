@@ -35,6 +35,9 @@ val area : Int = 5 * 3
 // val test = 1 / 0
 // test
 
+// Return type is optional
+// Indentation matters
+// end statement is optional
 def calculatePaintArea(facade: Double, window: Double) : Double =
     val door = 2 * 1
     val substractedArea = door + window * 2
@@ -43,12 +46,15 @@ end calculatePaintArea
 
 calculatePaintArea(facade, door)
 
+// Curly braces for the block is more of a Scala 2 thing
+// Scala 3 still supports it
 def marathonDuration(speed: Double): Double = {
     val distance: Double = 42.195
     val duration = distance * speed
     duration * 60 // Minutes
 }
 
+// Can have named args for readability
 marathonDuration(speed = 12)
 marathonDuration(14)
 
