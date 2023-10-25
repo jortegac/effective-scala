@@ -44,7 +44,7 @@ def calculatePaintArea(facade: Double, window: Double) : Double =
     facade - substractedArea
 end calculatePaintArea
 
-calculatePaintArea(facade, door)
+val paintArea = calculatePaintArea(facade, door)
 
 // Curly braces for the block is more of a Scala 2 thing
 // Scala 3 still supports it
@@ -58,3 +58,24 @@ def marathonDuration(speed: Double): Double = {
 marathonDuration(speed = 12)
 marathonDuration(14)
 
+
+// Conditions
+
+def showPrice(paintingArea: Double, paintPrice: Double) : String =
+    val price = paintingArea * paintPrice
+    if price > 100 then
+        "Too expensive"
+    else
+        price.toString
+
+showPrice(paintArea, 2)
+showPrice(paintArea, 50)
+
+// Definitions
+
+// Val is evaluated once
+val tenSquared_1 = 10 * 10
+// Def is evaluated upon each call. Generally for things with params, but could be handy
+// when you need to delay the evaluation of an expression until your need it (lazy eval)
+def tenSquared_2 = 10 * 10
+tenSquared_2
