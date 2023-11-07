@@ -42,3 +42,17 @@ mutable.ArrayBuffer("a", "b") :+ "c"
 // We cannot use +: or :+ on maps as they have no sense of order
 // Instead we can use the + operation
 Map("a" -> true) + ("b" -> false)
+
+
+def euclideanDivision(dividend: Int, divisor: Int): (Int, Int) =
+  val quotient  = dividend / divisor
+  val remainder = dividend % divisor
+  (quotient, remainder)
+
+val result = euclideanDivision(10, 3)
+result(0)
+
+result match
+  case (quotient, _) => println(quotient)
+
+val (q, r) = euclideanDivision(10, 3)
