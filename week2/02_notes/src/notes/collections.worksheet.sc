@@ -56,3 +56,29 @@ result match
   case (quotient, _) => println(quotient)
 
 val (q, r) = euclideanDivision(10, 3)
+
+///////////////////////////
+// Querying collections
+
+val data = List(1, 2, 3, 4, 5, 6)
+data.size
+data.isEmpty
+data.nonEmpty
+data.contains(1)
+
+// Find the first even number
+data.find(x => x % 2 == 0)
+// Find all even numbers
+data.filter(x => x % 2 == 0)
+
+// There are two cases to Option: Some and None
+
+// Will be None if the element is not found
+data.find(x => x == 10)
+
+// There are other filter methods in the scala documentation, such as filterNot, findLast, etc.
+
+
+val names = List("Alice", "Bob", "Carol", "David")
+names.filter(name => name.size > 4)
+println(names)
