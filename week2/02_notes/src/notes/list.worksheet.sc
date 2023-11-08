@@ -1,4 +1,4 @@
-// Domain-agnostic data structures and ultility functions.
+// Domain-agnostic data structures and utility functions.
 // Collections, error management, math functions, asynchronous execution
 
 // Lists
