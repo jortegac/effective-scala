@@ -82,3 +82,76 @@ data.find(x => x == 10)
 val names = List("Alice", "Bob", "Carol", "David")
 names.filter(name => name.size > 4)
 println(names)
+
+////// Transforming collections
+
+val list = List(1, 2, 3, 4, 5)
+list.map(x => x + 1)
+
+val buff = mutable.ArrayBuffer(1, 2, 3, 4, 5)
+buff.map(x => x % 2 == 0)
+
+val map = Map( 0 -> "No", 1 -> "Yes")
+map.map((key, value) => key -> (value * 2))
+
+// Note that map doesn't change the order or number of elements in a collection
+
+// FlatMap allows us to change the number of elements in a collection
+
+// Remove all the elements
+List(1, 2, 3).flatMap(x => List())
+
+// Double the number of elements
+mutable.ArrayBuffer(1, 2).flatMap(x => mutable.ArrayBuffer(x, x * 2))
+
+// Keep number of elements the same but change the type
+Map(1 -> "One", 2 -> "Two").flatMap((key, _) => Map(key.toString() -> key))
+
+// Map vs FlatMap
+// Implement a program that returns all the phone number of a contact list
+
+case class Contact(name: String, email: String, phoneNumbers: List[String])
+val alice = Contact("Alice", "alice@example.com", List())
+val bob = Contact("Bob", "bob@example.com", List("+3165465465"))
+val carol = Contact("Carol", "carol@example.com", List("+3165434555", "+31654345"))
+
+val contacts: List[Contact] = List(alice, bob, carol)
+
+val allPhoneNumbers = contacts.map(contact => contact.phoneNumbers)
+
+val allPhoneNumbers2 = contacts.flatMap(contact => contact.phoneNumbers)
+
+// FoldLeft
+// Allows us to transfrom a collection into anything else
+
+// Sum the elements of the list
+List(1, 2, 3).foldLeft(0)((acc, elem) => acc + elem)
+
+// Reverse the list
+List(1, 2, 3).foldLeft(List.empty[Int])((acc, elem) => elem +: acc)
+
+// True if the last element is even or the list is empty
+List(1, 2, 3).foldLeft(true)((acc, elem) => elem % 2 == 0)
+
+// The first paramenter list in FoldLeft is the initial value of the accumulator
+// The second parameter is the function is how we combine the accumulator with the current element of the list to create the next accumulator
+
+// GroupBy
+// Groups the elements of a collection according to a partition function
+
+val emails = List("alice@example.com", "bob@test.com", "carol@example.com")
+
+// Function extracting the domain name form an email address
+val domain: String => String =
+  email => email.dropWhile(contact => contact != '@').drop(1)
+
+val emailsByDomain = emails.groupBy(domain)
+
+////////
+val pastry = List("croissant", "cake", "pain au chocolat")
+val ingredients = (s: String) =>
+  if(s == "croissant") List("flour", "butter")
+  else if(s == "cake") List("flour", "eggs", "sugar", "butter")
+  else List()
+
+pastry.flatMap(ingredients)
