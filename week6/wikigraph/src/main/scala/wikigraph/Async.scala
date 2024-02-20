@@ -2,7 +2,7 @@ package wikigraph
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
-import scala.util.Try
+import scala.util.{Failure, Success, Try}
 import scala.util.control.NonFatal
 
 object Async:
@@ -16,7 +16,7 @@ object Async:
     * return a failed future with the same error.
     */
   def transformSuccess(eventuallyX: Future[Int]): Future[Boolean] =
-    ???
+    eventuallyX.map(x => x % 2 == 0)
 
   /**
     * Transforms a failed future value of type `Int` into a successful
@@ -28,7 +28,9 @@ object Async:
     * return a successful future with the same value.
     */
   def recoverFailure(eventuallyX: Future[Int]): Future[Int] =
-    ???
+    eventuallyX.recover {
+      case NonFatal(e) => -1
+    }
 
   /**
     * Performs two asynchronous computation, one after the other.
@@ -45,7 +47,10 @@ object Async:
     asyncComputation1: () => Future[A],
     asyncComputation2: () => Future[B]
   ): Future[(A, B)] =
-    ???
+    for {
+      a <- asyncComputation1()
+      b <- asyncComputation2()
+    } yield (a, b)
 
   /**
     * Concurrently performs two asynchronous computations and pair their
@@ -59,7 +64,7 @@ object Async:
     asyncComputation1: () => Future[A],
     asyncComputation2: () => Future[B]
   ): Future[(A, B)] =
-    ???
+    asyncComputation1().zip(asyncComputation2())
 
   /**
     * Makes a chocolate cake.
@@ -77,7 +82,11 @@ object Async:
     mixEverything: (MeltedButterAndChocolate, Eggs, Sugar) => Future[CakeDough],
     bake: CakeDough => Future[Cake]
   ): Future[Cake] =
-    ???
+    for {
+      meltedButterWithChocolate <- meltButterWithChocolate(butter, chocolate)
+      dough <- mixEverything(meltedButterWithChocolate, eggs, sugar)
+      bakedCake <- bake(dough) 
+    } yield bakedCake
 
   /**
     * Attempts to perform an asynchronous computation at most
@@ -90,6 +99,12 @@ object Async:
     * Hint: recursively call `insist` in the failure handler.
     */
   def insist[A](asyncComputation: () => Future[A], maxAttempts: Int): Future[A] =
-    ???
+    if (maxAttempts == 0) {
+      Future.failed(new Exception("Reached maximum attempts"))
+    } else {
+      asyncComputation().recoverWith {
+        case NonFatal(e) => insist(asyncComputation, maxAttempts - 1)
+      }
+    }
 
 end Async
